@@ -4,9 +4,9 @@
 #include <math.h>
 
 int main(void) {
-	int data[365][2], i, j;
-	float mean_1, mean_2, std_1, std_2,sum_1 = 0, sum_2 = 0;
-	FILE *pointer;
+	int data[365][2], i, j,l;
+	float mean_1, mean_2, std_1, std_2, sum_1 = 0, sum_2 = 0, num_1=0, num_2=0;
+	FILE *pointer,*pointer2;
 	pointer = fopen("1930_2001.csv", "r");
 
 	for (i = 0; i <=364; i++) {
@@ -23,5 +23,24 @@ int main(void) {
 	mean_2 = sum_2 / 365;
 	printf("\n\nThe average temperature in 1930 was %f\nThe average temperature in \
 2001 was %f", mean_1, mean_2);
+	
+	for (l = 0; l <= 364; l++) {
+		num_1 = num_1+pow((data[l][0] - mean_1), 2);
+		num_2 = num_2+pow((data[l][1] - mean_2), 2);
+	}
+
+	std_1 = pow((num_1 / 364), .5);
+	std_2 = pow((num_2 / 364), .5);
+	printf("\n\nThe standard deviation of the 1930 data is %f\nThe standard deviation of \
+the 2001 data is %f", std_1, std_2);
+
+	pointer2 = fopen("results.dat", "w");
+
+	fprintf(pointer2, "mean of 1930:%f standard deviation of 1930:%f\
+\nmean of 2001:%f standard deviation of 2001:%f", mean_1, std_1, mean_2, std_2);
+
+	fclose(pointer2);
+
+	
 	
 		system("pause");
