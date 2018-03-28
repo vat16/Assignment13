@@ -1,0 +1,27 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main(void) {
+	int data[365][2], i, j;
+	float mean_1, mean_2, std_1, std_2,sum_1 = 0, sum_2 = 0;
+	FILE *pointer;
+	pointer = fopen("1930_2001.csv", "r");
+
+	for (i = 0; i <=364; i++) {
+		fscanf(pointer, "%d,%d", &data[i][0], &data[i][1]);
+		printf("%d\t%d\n", data[i][0],data[i][1]);
+	}
+	fclose(pointer);
+	
+	for (j = 0; j <= 364; j++) {
+		sum_1+=data[j][0];
+		sum_2+=data[j][1];
+	}
+	mean_1 = sum_1 / 365;
+	mean_2 = sum_2 / 365;
+	printf("\n\nThe average temperature in 1930 was %f\nThe average temperature in \
+2001 was %f", mean_1, mean_2);
+	
+		system("pause");
