@@ -2,7 +2,7 @@
 ENGR0012 Team L01 team work for assignment 13. Due Thursday 2:00pm.
 Have Fun
 
-This will help you find what month a day of the year is:
+This will help you find what month a day of the year is. To view it properly open the readme.
 
 1	jan
 2	
