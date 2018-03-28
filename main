@@ -4,7 +4,7 @@
 #include <math.h>
 
 int main(void) {
-	int data[365][2], i, j,l;
+	int data[365][2], i, j,l,min_1,max_1,min_2,max_2,b;
 	float mean_1, mean_2, std_1, std_2, sum_1 = 0, sum_2 = 0, num_1=0, num_2=0;
 	//initialize pointer variables for reading and writing
 	FILE *pointer,*pointer2;
@@ -35,6 +35,31 @@ int main(void) {
 	std_2 = pow((num_2 / 364), .5);
 	printf("\n\nThe standard deviation of the 1930 data is %f\nThe standard deviation of \
 the 2001 data is %f", std_1, std_2);
+
+
+	min_1 = data[0][0];
+	min_2 = data[0][1];
+	max_1 = data[0][0];                     //calculate maxs and mins of data
+	max_2 = data[0][1];
+	for (b = 1; b <= 364; b++) {
+		if (data[b][0] < min_1) {
+			min_1 = data[b][0];
+		}
+		if (data[b][1] < min_2) {
+			min_2 = data[b][1];
+		}
+		if (data[b][0] > max_1) {
+			max_1 = data[b][0];
+		}
+		if (data[b][1] > max_2) {
+			max_2 = data[b][1];
+		}
+	}
+
+	printf("\n\n min_1=%d  min_2=%d  max_1=%d  max_2=%d", min_1,min_2,max_1,max_2);
+
+
+
 
 	pointer2 = fopen("results.dat", "w");    // open/create results
 
