@@ -6,41 +6,45 @@
 int main(void) {
 	int data[365][2], i, j,l;
 	float mean_1, mean_2, std_1, std_2, sum_1 = 0, sum_2 = 0, num_1=0, num_2=0;
+	//initialize pointer variables for reading and writing
 	FILE *pointer,*pointer2;
 	pointer = fopen("1930_2001.csv", "r");
 
+	//scan data into a 365 by 2 martix
 	for (i = 0; i <=364; i++) {
 		fscanf(pointer, "%d,%d", &data[i][0], &data[i][1]);
 		printf("%d\t%d\n", data[i][0],data[i][1]);
 	}
-	fclose(pointer);
+	fclose(pointer); //close document
 	
 	for (j = 0; j <= 364; j++) {
-		sum_1+=data[j][0];
+		sum_1+=data[j][0];          //compute sum each column
 		sum_2+=data[j][1];
 	}
-	mean_1 = sum_1 / 365;
-	mean_2 = sum_2 / 365;
+	mean_1 = sum_1 / 365;               //compute average of each row
+	mean_2 = sum_2 / 365;              
 	printf("\n\nThe average temperature in 1930 was %f\nThe average temperature in \
 2001 was %f", mean_1, mean_2);
 	
 	for (l = 0; l <= 364; l++) {
-		num_1 = num_1+pow((data[l][0] - mean_1), 2);
+		num_1 = num_1+pow((data[l][0] - mean_1), 2);    //compute numerator of standard deviation
 		num_2 = num_2+pow((data[l][1] - mean_2), 2);
 	}
 
-	std_1 = pow((num_1 / 364), .5);
+	std_1 = pow((num_1 / 364), .5);       //finish computing standard deviation
 	std_2 = pow((num_2 / 364), .5);
 	printf("\n\nThe standard deviation of the 1930 data is %f\nThe standard deviation of \
 the 2001 data is %f", std_1, std_2);
 
-	pointer2 = fopen("results.dat", "w");
+	pointer2 = fopen("results.dat", "w");    // open/create results
 
-	fprintf(pointer2, "mean of 1930:%f standard deviation of 1930:%f\
-\nmean of 2001:%f standard deviation of 2001:%f", mean_1, std_1, mean_2, std_2);
+	fprintf(pointer2, "mean of 1930: %f standard deviation of 1930: %f\
+\nmean of 2001: %f standard deviation of 2001: %f", mean_1, std_1, mean_2, std_2); // write data to file in user friendly way
 
-	fclose(pointer2);
+	fclose(pointer2);     //close document
 
 	
 	
 		system("pause");
+
+}
