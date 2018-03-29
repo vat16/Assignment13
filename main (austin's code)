@@ -5,9 +5,10 @@
 #include <string.h>
 
 int main(void) {
-	char min_1_month[9], min_2_month[9], max_1_month[9], max_2_month[9];
+	char min_1_month[9], min_2_month[9], max_1_month[9], max_2_month[9],diff_min_month[9], diff_max_month[9];
 	int data[365][2], i, j, l, min_1, max_1, min_2, max_2, b, min_1_location = 0, min_2_location = 0, max_1_location = 0;
-	int max_2_location = 0, min_1_day,min_2_day,max_1_day,max_2_day;
+	int max_2_location = 0, min_1_day,min_2_day,max_1_day,max_2_day, diff[365],diff_min,diff_max;
+	int diff_min_location=0, diff_max_location=0, diff_min_day, diff_max_day;
 	float mean_1, mean_2, std_1, std_2, sum_1 = 0, sum_2 = 0, num_1 = 0, num_2 = 0;
 	//initialize pointer variables for reading and writing
 	FILE *pointer, *pointer2;
@@ -16,7 +17,6 @@ int main(void) {
 	//scan data into a 365 by 2 martix
 	for (i = 0; i <= 364; i++) {
 		fscanf(pointer, "%d,%d", &data[i][0], &data[i][1]);
-		printf("%d\t%d\n", data[i][0], data[i][1]);
 	}
 	fclose(pointer); //close document
 
@@ -312,6 +312,157 @@ int main(void) {
 	// end of finding month and day
 
 
+
+	//find difference in temperatures
+
+	
+	for (i = 0; i <= 364; i++) {
+		diff[i] = pow((pow((data[i][0] - data[i][1]), 2)), .5);
+	}
+
+	//find max and min differences. Save day #
+	diff_min= diff[0];
+	diff_max = diff[0];
+	diff_min_location = 0;
+	diff_max_location = 0;
+	for (i = 0; i <= 364; i++) {
+		if (diff_min > diff[i]) {
+			diff_min = diff[i];
+			diff_min_location = i+1;
+		}
+		if (diff_max < diff[i]) {
+			diff_max = diff[i];
+			diff_max_location = i+1;
+		}
+	}
+
+	// find month and day of max and min temperature difference from their index value in the array
+	do {
+		if (diff_max_location >= 335) {
+			strcpy(diff_max_month, "December");
+			diff_max_day = diff_max_location - 334;
+			continue;
+		}
+		if (diff_max_location >= 305) {
+			strcpy(diff_max_month, "November");
+			diff_max_day = diff_max_location - 304;
+			continue;
+		}
+		if (diff_max_location >= 274) {
+			strcpy(diff_max_month, "October");
+			diff_max_day = diff_max_location - 273;
+			continue;
+		}
+		if (diff_max_location >= 244) {
+			strcpy(diff_max_month, "September");
+			diff_max_day = diff_max_location - 243;
+			continue;
+		}
+		if (diff_max_location >= 213) {
+			strcpy(diff_max_month, "August");
+			diff_max_day = diff_max_location - 212;
+			continue;
+		}
+		if (diff_max_location >= 182) {
+			strcpy(diff_max_month, "July");
+			diff_max_day = diff_max_location - 181;
+			continue;
+		}
+		if (diff_max_location >= 152) {
+			strcpy(diff_max_month, "June");
+			diff_max_day = diff_max_location - 151;
+			continue;
+		}
+		if (diff_max_location >= 121) {
+			strcpy(diff_max_month, "May");
+			diff_max_day = diff_max_location - 120;
+			continue;
+		}
+		if (diff_max_location >= 91) {
+			strcpy(diff_max_month, "April");
+			diff_max_day = diff_max_location - 90;
+			continue;
+		}
+		if (diff_max_location >= 60) {
+			strcpy(diff_max_month, "March");
+			diff_max_day = diff_max_location - 59;
+			continue;
+		}
+		if (diff_max_location >= 32) {
+			strcpy(diff_max_month, "February ");
+			diff_max_day = diff_max_location - 31;
+			continue;
+		}
+		if (diff_max_location < 32) {
+			strcpy(diff_max_month, "January");
+			diff_max_day = diff_max_location;
+		}
+	} while (1 == 0);
+
+	do {
+		if (diff_min_location >= 335) {
+			strcpy(diff_min_month, "December");
+			diff_min_day = diff_min_location - 334;
+			continue;
+		}
+		if (diff_min_location >= 305) {
+			strcpy(diff_min_month, "November");
+			diff_min_day = diff_min_location - 304;
+			continue;
+		}
+		if (diff_min_location >= 274) {
+			strcpy(diff_min_month, "October");
+			diff_min_day = diff_min_location - 273;
+			continue;
+		}
+		if (diff_min_location >= 244) {
+			strcpy(diff_min_month, "September");
+			diff_min_day = diff_min_location - 243;
+			continue;
+		}
+		if (diff_min_location >= 213) {
+			strcpy(diff_min_month, "August");
+			diff_min_day = diff_min_location - 212;
+			continue;
+		}
+		if (diff_min_location >= 182) {
+			strcpy(diff_min_month, "July");
+			diff_min_day = diff_min_location - 181;
+			continue;
+		}
+		if (diff_min_location >= 152) {
+			strcpy(diff_min_month, "June");
+			diff_min_day = diff_min_location - 151;
+			continue;
+		}
+		if (diff_min_location >= 121) {
+			strcpy(diff_min_month, "May");
+			diff_min_day = diff_min_location - 120;
+			continue;
+		}
+		if (diff_min_location >= 91) {
+			strcpy(diff_min_month, "April");
+			diff_min_day = diff_min_location - 90;
+			continue;
+		}
+		if (diff_min_location >= 60) {
+			strcpy(diff_min_month, "March");
+			diff_min_day = diff_min_location - 59;
+			continue;
+		}
+		if (diff_min_location >= 32) {
+			strcpy(diff_min_month, "February ");
+			diff_min_day = diff_min_location - 31;
+			continue;
+		}
+		if (diff_min_location < 32) {
+			strcpy(diff_min_month, "January");
+			diff_min_day = diff_min_location;
+		}
+	} while (1 == 0);
+
+
+
 	//printing results 
 	printf("\n\nThe average temperature in 1930 was %0.2f\nThe average temperature in \
 2001 was %0.2f", mean_1, mean_2);
@@ -323,6 +474,11 @@ the 2001 data is %0.1f", std_1, std_2);
 \nThe minimum and maximum temperatures in 2001 were %d degrees on %s %d and \%d degrees on %s \
 %d", min_1, min_1_month, min_1_day, max_1, max_1_month, max_1_day, min_2, min_2_month, min_2_day, max_2,max_2_month, max_2_day);
 
+	printf("\n\nThe minimum and maximum temperature difference between the days of 1930 and 2001 is %d degrees on %s %d\
+ and %d degrees on %s %d", diff_min, diff_min_month, diff_min_day, diff_max, diff_max_month, diff_max_day);
+
+
+
 
 	pointer2 = fopen("results.dat", "w");    // open/create results
 
@@ -332,10 +488,17 @@ the 2001 data is %0.1f", std_1, std_2);
 \nThe minimum and maximum temperatures in 2001 were %d degrees on %s %d and %d degrees on %s \
 %d", mean_1, std_1, mean_2, std_2,min_1,min_1_month,min_1_day,max_1,max_1_month,max_1_day,min_2,min_2_month,min_2_day,max_2,max_2_month,max_2_day); // write data to file in user friendly way
 
+	fprintf(pointer2,"\n\nThe minimum and maximum temperature difference between the days of 1930 and 2001 is %d degrees on %s %d\
+ and %d degrees on %s %d", diff_min, diff_min_month, diff_min_day, diff_max, diff_max_month, diff_max_day);
+
 	fclose(pointer2);     //close document
 
 	
 	printf("\n\n");
+
+
+
+
 		system("pause");
 
 }
