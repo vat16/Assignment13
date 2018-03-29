@@ -1,0 +1,334 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string>
+/*Gabrielle Peal
+Austin Sims
+Valeria Tupac
+Engineering 0012 T,H 2pm
+Instructor: Mandala
+Date: 3/29/2018
+HW 13
+
+purpose of script: to analyze data*/
+
+//declares variables
+int data[365][2];
+int temp30[365][1];
+int temp01[365][1];
+int sum30 = 0;
+int sum01 = 0;
+int i, j, k, max30, max01, min30, min01;
+float mean30, mean01;
+float std30, std01;
+int day_min30, day_min01;
+int day_max30, day_max01;
+char month_min30[20], month_min01[20];
+char month_max30[20], month_max01[20];;
+float mean_diff30=0, mean_diff01=0;
+
+int main(void)
+
+{
+	//reads script
+	FILE *file1,*file2; 
+
+	//reads file 1
+	file1 = fopen("1930_2001.csv", "r");
+
+	//scans data from first file
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		fscanf(file1, "%d,%d", &temp30[i][0], &temp01[i][0]);
+	} 
+
+	//closes first file
+	fclose(file1);
+
+	//finds sum
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		sum30 = sum30 + temp30[i][0];
+		sum01 = sum01 + temp01[i][0];
+	}
+
+	//finds mean
+	mean30 = sum30/365;
+	mean01 = sum01/365;
+
+	//difference between average and real value
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		mean_diff30 = mean_diff30 + pow(temp30[i][0] - mean30, 2) ;
+		mean_diff01 = mean_diff01 + pow(temp01[i][0] - mean01, 2);
+	}
+
+	//finds standard deviation
+	std30 = sqrt(mean_diff30) / 365;
+	std01 = sqrt(mean_diff01) / 365;
+
+	//finds min
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		min30 = (temp30[i][0] < min30) ? temp30[i][0] : min30;
+		min01 = (temp01[i][0] < min30) ? temp01[i][0] : min01;
+	}
+
+	//finds max
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		max30 = (temp30[i][0] > max30) ? temp30[i][0] : max30;
+		max01 = (temp01[i][0] > max30) ? temp01[i][0] : max01;
+	}
+
+	//finds the total min day in 1930
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		if (min30 = temp30[i][0]) {
+			day_min30 = i;
+			break;
+		}
+	}
+
+	//finds the min month and day of year 1930
+	if (day_min30 >= 1 || day_min30 <= 31) {
+		strcpy(month_min30, "January");
+		day_min30 = day_min30;
+	}
+	else if (day_min30 >= 32 || day_min30 <= 59) {
+		strcpy(month_min30, "February");
+		day_min30 = day_min30 - 31;
+	}
+	else if (day_min30 >= 60 || day_min30 <= 90) {
+		strcpy(month_min30, "March");
+		day_min30 = day_min30 - 59;
+	}
+	else if (day_min30 >= 91 || day_min30 <= 120) {
+		strcpy(month_min30, "April");
+		day_min30 = day_min30 - 90;
+	}
+	else if (day_min30 >= 121 || day_min30 <= 151) {
+		strcpy(month_min30, "May");
+		day_min30 = day_min30 - 120;
+	}
+	else if (day_min30 >= 152 || day_min30 <= 181) {
+		strcpy(month_min30, "June");
+		day_min30 = day_min30 - 151;
+	}
+	else if (day_min30 >= 182 || day_min30 <= 212) {
+		strcpy(month_min30, "July");
+		day_min30 = day_min30 - 181;
+	}
+	else if (day_min30 >= 213 || day_min30 <= 243) {
+		strcpy(month_min30, "August");
+		day_min30 = day_min30 - 212;
+	}
+	else if (day_min30 >= 244 || day_min30 <= 273) {
+		strcpy(month_min30, "September");
+		day_min30 = day_min30 - 243;
+	}
+	else if (day_min30 >= 274 || day_min30 <= 304) {
+		strcpy(month_min30, "October");
+		day_min30 = day_min30 - 273;
+	}
+	else if (day_min30 >= 305 || day_min30 <= 334) {
+		strcpy(month_min30, "November");
+		day_min30 = day_min30 - 304;
+	}
+	else {
+		strcpy(month_min30, "December");
+		day_min30 = day_min30 - 334;
+	}
+
+	//finds the total days for min day in 2001
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		if (min01 = temp01[i][0]) {
+			day_min01 = i;
+			break;
+		}
+	}
+
+	//finds the month and day of year 2001
+	if (day_min01 >= 1 || day_min01 <= 31) {
+		strcpy(month_min01, "January");
+		day_min01 = day_min01;
+	}
+	else if (day_min01 >= 32 || day_min01 <= 59) {
+		strcpy(month_min01, "February");
+		day_min01 = day_min01 - 31;
+	}
+	else if (day_min01 >= 60 || day_min01 <= 90) {
+		strcpy(month_min01, "March");
+		day_min01 = day_min01 - 59;
+	}
+	else if (day_min01 >= 91 || day_min01 <= 120) {
+		strcpy(month_min01, "April");
+		day_min01 = day_min01 - 90;
+	}
+	else if (day_min01 >= 121 || day_min01 <= 151) {
+		strcpy(month_min01, "May");
+		day_min01 = day_min01 - 120;
+	}
+	else if (day_min01 >= 152 || day_min01 <= 181) {
+		strcpy(month_min01, "June");
+		day_min01 = day_min01 - 151;
+	}
+	else if (day_min01 >= 182 || day_min01 <= 212) {
+		strcpy(month_min01, "July");
+		day_min01 = day_min01 - 181;
+	}
+	else if (day_min01 >= 213 || day_min01 <= 243) {
+		strcpy(month_min01, "August");
+		day_min01 = day_min01 - 212;
+	}
+	else if (day_min01 >= 244 || day_min01 <= 273) {
+		strcpy(month_min01, "September");
+		day_min01 = day_min01 - 243;
+	}
+	else if (day_min01 >= 274 || day_min01 <= 304) {
+		strcpy(month_min01, "October");
+		day_min01 = day_min01 - 273;
+	}
+	else if (day_min01 >= 305 || day_min01 <= 334) {
+		strcpy(month_min01, "November");
+		day_min01 = day_min01 - 304;
+	}
+	else {
+		strcpy(month_min01, "December");
+		day_min01 = day_min01 - 334;
+	}
+
+	//finds the total days for the max day in 1930
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		if (max30 = temp30[i][0]) {
+			day_max30 = i;
+			break;
+		}
+	}
+
+	//finds the max month and day of year 1930
+	if (day_max30 >= 1 || day_max30 <= 31) {
+		strcpy(month_max30, "January");
+		day_max30 = day_max30;
+	}
+	else if (day_max30 >= 32 || day_max30 <= 59) {
+		strcpy(month_max30, "February");
+		day_max30 = day_max30 - 31;
+	}
+	else if (day_max30 >= 60 || day_max30 <= 90) {
+		strcpy(month_max30, "March");
+		day_max30 = day_max30 - 59;
+	}
+	else if (day_max30 >= 91 || day_max30 <= 120) {
+		strcpy(month_max30, "April");
+		day_max30 = day_max30 - 90;
+	}
+	else if (day_max30 >= 121 || day_max30 <= 151) {
+		strcpy(month_max30, "May");
+		day_max30 = day_max30 - 120;
+	}
+	else if (day_max30 >= 152 || day_max30 <= 181) {
+		strcpy(month_max30, "June");
+		day_max30 = day_max30 - 151;
+	}
+	else if (day_max30 >= 182 || day_max30 <= 212) {
+		strcpy(month_max30, "July");
+		day_max30 = day_max30 - 181;
+	}
+	else if (day_max30 >= 213 || day_max30 <= 243) {
+		strcpy(month_max30, "August");
+		day_max30 = day_max30 - 212;
+	}
+	else if (day_max30 >= 244 || day_max30 <= 273) {
+		strcpy(month_max30, "September");
+		day_max30 = day_max30 - 243;
+	}
+	else if (day_max30 >= 274 || day_max30 <= 304) {
+		strcpy(month_max30, "October");
+		day_max30 = day_max30 - 273;
+	}
+	else if (day_max30 >= 305 || day_max30 <= 334) {
+		strcpy(month_max30, "November");
+		day_max30 = day_max30 - 304;
+	}
+	else {
+		strcpy(month_max30, "December");
+		day_max30 = day_max30 - 334;
+	}
+
+	//finds total days for the max day in 2001
+	i = 0;
+	for (i = 0; i <= 364; i++) {
+		if (max01 = temp01[i][0]) {
+			day_max01 = i;
+			break;
+		}
+	}
+
+	//finds the max month and day of year 2001
+	if (day_max01 >= 1 || day_max01 <= 31) {
+		strcpy(month_max01, "January");
+		day_max01 = day_max01;
+	}
+	else if (day_max01 >= 32 || day_max01 <= 59) {
+		strcpy(month_max01, "February");
+		day_max01 = day_max01 - 31;
+	}
+	else if (day_max01 >= 60 || day_max01 <= 90) {
+		strcpy(month_max01, "March");
+		day_max01 = day_max01 - 59;
+	}
+	else if (day_max01 >= 91 || day_max01 <= 120) {
+		strcpy(month_max01, "April");
+		day_max01 = day_max01 - 90;
+	}
+	else if (day_max01 >= 121 || day_max01 <= 151) {
+		strcpy(month_max01, "May");
+		day_max01 = day_max01 - 120;
+	}
+	else if (day_max01 >= 152 || day_max01 <= 181) {
+		strcpy(month_max01, "June");
+		day_max01 = day_max01 - 151;
+	}
+	else if (day_max01 >= 182 || day_max01 <= 212) {
+		strcpy(month_max01, "July");
+		day_max01 = day_max01 - 181;
+	}
+	else if (day_max01 >= 213 || day_max01 <= 243) {
+		strcpy(month_max01, "August");
+		day_max01 = day_max01 - 212;
+	}
+	else if (day_max01 >= 244 || day_max01 <= 273) {
+		strcpy(month_max01, "September");
+		day_max01 = day_max01 - 243;
+	}
+	else if (day_max01 >= 274 || day_max01 <= 304) {
+		strcpy(month_max01, "October");
+		day_max01 = day_max01 - 273;
+	}
+	else if (day_max01 >= 305 || day_max01 <= 334) {
+		strcpy(month_max01, "November");
+		day_max01 = day_max01 - 304;
+	}
+	else {
+		strcpy(month_max01, "December");
+		day_max01 = day_max01 - 334;
+	}
+
+
+	//writes on file 2
+	file2 = fopen("results.dat", "w");
+	fprintf(file2,"The mean for 1930 is %f\nThe mean for 2001 is %f", mean30, mean01);
+	fprintf(file2,"\nThe standard deviation for 1930 is %f\nThe standard deviation for 2001 is %f", std30, std01);
+	fprintf(file2,"\nThe maximum temperature for 1930 is %f\nThe maximum temperature for 2001 is %f", max30, max01);
+	fprintf(file2, "\nThe minimum temperature for 1930 is %f\nThe minimum temperature for 2001 is %f", min30, min01);
+
+	//closes file 2
+	fclose(file2);
+
+	system("pause");
+	return 0;
+}
