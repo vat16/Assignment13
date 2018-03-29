@@ -2,74 +2,340 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 int main(void) {
-	int data[365][2], i, j,l,min_1,max_1,min_2,max_2,b;
-	float mean_1, mean_2, std_1, std_2, sum_1 = 0, sum_2 = 0, num_1=0, num_2=0;
+	char min_1_month[9], min_2_month[9], max_1_month[9], max_2_month[9];
+	int data[365][2], i, j, l, min_1, max_1, min_2, max_2, b, min_1_location = 0, min_2_location = 0, max_1_location = 0;
+	int max_2_location = 0, min_1_day,min_2_day,max_1_day,max_2_day;
+	float mean_1, mean_2, std_1, std_2, sum_1 = 0, sum_2 = 0, num_1 = 0, num_2 = 0;
 	//initialize pointer variables for reading and writing
-	FILE *pointer,*pointer2;
+	FILE *pointer, *pointer2;
 	pointer = fopen("1930_2001.csv", "r");
 
 	//scan data into a 365 by 2 martix
-	for (i = 0; i <=364; i++) {
+	for (i = 0; i <= 364; i++) {
 		fscanf(pointer, "%d,%d", &data[i][0], &data[i][1]);
-		printf("%d\t%d\n", data[i][0],data[i][1]);
+		printf("%d\t%d\n", data[i][0], data[i][1]);
 	}
 	fclose(pointer); //close document
-	
+
 	for (j = 0; j <= 364; j++) {
-		sum_1+=data[j][0];          //compute sum each column
-		sum_2+=data[j][1];
+		sum_1 += data[j][0];          //compute sum each column
+		sum_2 += data[j][1];
 	}
 	mean_1 = sum_1 / 365;               //compute average of each row
-	mean_2 = sum_2 / 365;              
-	printf("\n\nThe average temperature in 1930 was %f\nThe average temperature in \
-2001 was %f", mean_1, mean_2);
+	mean_2 = sum_2 / 365;
 	
-	for (l = 0; l <= 364; l++) {
-		num_1 = num_1+pow((data[l][0] - mean_1), 2);    //compute numerator of standard deviation
-		num_2 = num_2+pow((data[l][1] - mean_2), 2);
-	}
 
+	for (l = 0; l <= 364; l++) {
+		num_1 = num_1 + pow((data[l][0] - mean_1), 2);    //compute numerator of standard deviation
+		num_2 = num_2 + pow((data[l][1] - mean_2), 2);
+	}
 	std_1 = pow((num_1 / 364), .5);       //finish computing standard deviation
 	std_2 = pow((num_2 / 364), .5);
-	printf("\n\nThe standard deviation of the 1930 data is %f\nThe standard deviation of \
-the 2001 data is %f", std_1, std_2);
 
 
 	min_1 = data[0][0];
 	min_2 = data[0][1];
-	max_1 = data[0][0];                     //calculate maxs and mins of data
+	max_1 = data[0][0];                     //calculate maxs and mins of data. Also saves location
 	max_2 = data[0][1];
 	for (b = 1; b <= 364; b++) {
 		if (data[b][0] < min_1) {
 			min_1 = data[b][0];
+			min_1_location = b + 1;
 		}
 		if (data[b][1] < min_2) {
 			min_2 = data[b][1];
+			min_2_location = b + 1;
 		}
 		if (data[b][0] > max_1) {
 			max_1 = data[b][0];
+			max_1_location = b + 1;
 		}
 		if (data[b][1] > max_2) {
 			max_2 = data[b][1];
+			max_2_location = b + 1;
 		}
 	}
 
-	printf("\n\n min_1=%d  min_2=%d  max_1=%d  max_2=%d", min_1,min_2,max_1,max_2);
+	do {
+		if (min_1_location >= 335) {     //long section of code to find the month and day of the min and max temp. from the number of the day in the entire year
+			strcpy(min_1_month, "December");
+			min_1_day = min_1_location - 334;
+			continue;
+		}
+		if (min_1_location >= 305) {
+			strcpy(min_1_month, "November");
+			min_1_day = min_1_location - 304;
+			continue;
+		}
+		if (min_1_location >= 274) {
+			strcpy(min_1_month, "October");
+			min_1_day = min_1_location - 273;
+			continue;
+		}
+		if (min_1_location >= 244) {
+			strcpy(min_1_month, "September");
+			min_1_day = min_1_location - 243;
+			continue;
+		}
+		if (min_1_location >= 213) {
+			strcpy(min_1_month, "August");
+			min_1_day = min_1_location - 212;
+			continue;
+		}
+		if (min_1_location >= 182) {
+			strcpy(min_1_month, "July");
+			min_1_day = min_1_location - 181;
+			continue;
+		}
+		if (min_1_location >= 152) {
+			strcpy(min_1_month, "June");
+			min_1_day = min_1_location - 151;
+			continue;
+		}
+		if (min_1_location >= 121) {
+			strcpy(min_1_month, "May");
+			min_1_day = min_1_location - 120;
+			continue;
+		}
+		if (min_1_location >= 91) {
+			strcpy(min_1_month, "April");
+			min_1_day = min_1_location - 90;
+			continue;
+		}
+		if (min_1_location >= 60) {
+			strcpy(min_1_month, "March");
+			min_1_day = min_1_location - 59;
+			continue;
+		}
+		if (min_1_location >= 32) {
+			strcpy(min_1_month, "February ");
+			min_1_day = min_1_location - 31;
+			continue;
+		}
+		if (min_1_location < 32) {
+			strcpy(min_1_month, "January");
+			min_1_day = min_1_location;
+		}
 
 
+	} while (1 == 0);
+
+	do {
+		if (min_2_location >= 335) {
+			strcpy(min_2_month, "December");
+			min_2_day = min_2_location - 334;
+			continue;
+		}
+		if (min_2_location >= 305) {
+			strcpy(min_2_month, "November");
+			min_2_day = min_2_location - 304;
+			continue;
+		}
+		if (min_2_location >= 274) {
+			strcpy(min_2_month, "October");
+			min_2_day = min_2_location - 273;
+			continue;
+		}
+		if (min_2_location >= 244) {
+			strcpy(min_2_month, "September");
+			min_2_day = min_2_location - 243;
+			continue;
+		}
+		if (min_2_location >= 213) {
+			strcpy(min_2_month, "August");
+			min_2_day = min_2_location - 212;
+			continue;
+		}
+		if (min_2_location >= 182) {
+			strcpy(min_2_month, "July");
+			min_2_day = min_2_location - 181;
+			continue;
+		}
+		if (min_2_location >= 152) {
+			strcpy(min_2_month, "June");
+			min_2_day = min_2_location - 151;
+			continue;
+		}
+		if (min_2_location >= 121) {
+			strcpy(min_2_month, "May");
+			min_2_day = min_2_location - 120;
+			continue;
+		}
+		if (min_2_location >= 91) {
+			strcpy(min_2_month, "April");
+			min_2_day = min_2_location - 90;
+			continue;
+		}
+		if (min_2_location >= 60) {
+			strcpy(min_2_month, "March");
+			min_2_day = min_2_location - 59;
+			continue;
+		}
+		if (min_2_location >= 32) {
+			strcpy(min_2_month, "February ");
+			min_2_day = min_2_location - 31;
+			continue;
+		}
+		if (min_2_location < 32) {
+			strcpy(min_2_month, "January");
+			min_2_day = min_2_location;
+		}
+	} while (1 == 0);
+
+	do {
+		if (max_1_location >= 335) {
+			strcpy(max_1_month, "December");
+			max_1_day = max_1_location - 334;
+			continue;
+		}
+		if (max_1_location >= 305) {
+			strcpy(max_1_month, "November");
+			max_1_day = max_1_location - 304;
+			continue;
+		}
+		if (max_1_location >= 274) {
+			strcpy(max_1_month, "October");
+			max_1_day = max_1_location - 273;
+			continue;
+		}
+		if (max_1_location >= 244) {
+			strcpy(max_1_month, "September");
+			max_1_day = max_1_location - 243;
+			continue;
+		}
+		if (max_1_location >= 213) {
+			strcpy(max_1_month, "August");
+			max_1_day = max_1_location - 212;
+			continue;
+		}
+		if (max_1_location >= 182) {
+			strcpy(max_1_month, "July");
+			max_1_day = max_1_location - 181;
+			continue;
+		}
+		if (max_1_location >= 152) {
+			strcpy(max_1_month, "June");
+			max_1_day = max_1_location - 151;
+			continue;
+		}
+		if (max_1_location >= 121) {
+			strcpy(max_1_month, "May");
+			max_1_day = max_1_location - 120;
+			continue;
+		}
+		if (max_1_location >= 91) {
+			strcpy(max_1_month, "April");
+			max_1_day = max_1_location - 90;
+			continue;
+		}
+		if (max_1_location >= 60) {
+			strcpy(max_1_month, "March");
+			max_1_day = max_1_location - 59;
+			continue;
+		}
+		if (max_1_location >= 32) {
+			strcpy(max_1_month, "February ");
+			max_1_day = max_1_location - 31;
+			continue;
+		}
+		if (max_1_location < 32) {
+			strcpy(max_1_month, "January");
+			max_1_day = max_1_location;
+		}
+	} while (1 == 0);
+
+	do {
+		if (max_2_location >= 335) {
+			strcpy(max_2_month, "December");
+			max_2_day = max_2_location - 334;
+			continue;
+		}
+		if (max_2_location >= 305) {
+			strcpy(max_2_month, "November");
+			max_2_day = max_2_location - 304;
+			continue;
+		}
+		if (max_2_location >= 274) {
+			strcpy(max_2_month, "October");
+			max_2_day = max_2_location - 273;
+			continue;
+		}
+		if (max_2_location >= 244) {
+			strcpy(max_2_month, "September");
+			max_2_day = max_2_location - 243;
+			continue;
+		}
+		if (max_2_location >= 213) {
+			strcpy(max_2_month, "August");
+			max_2_day = max_2_location - 212;
+			continue;
+		}
+		if (max_2_location >= 182) {
+			strcpy(max_2_month, "July");
+			max_2_day = max_2_location - 181;
+			continue;
+		}
+		if (max_2_location >= 152) {
+			strcpy(max_2_month, "June");
+			max_2_day = max_2_location - 151;
+			continue;
+		}
+		if (max_2_location >= 121) {
+			strcpy(max_2_month, "May");
+			max_2_day = max_2_location - 120;
+			continue;
+		}
+		if (max_2_location >= 91) {
+			strcpy(max_2_month, "April");
+			max_2_day = max_2_location - 90;
+			continue;
+		}
+		if (max_2_location >= 60) {
+			strcpy(max_2_month, "March");
+			max_2_day = max_2_location - 59;
+			continue;
+		}
+		if (max_2_location >= 32) {
+			strcpy(max_2_month, "February ");
+			max_2_day = max_2_location - 31;
+			continue;
+		}
+		if (max_2_location < 32) {
+			strcpy(max_2_month, "January");
+			max_2_day = max_2_location;
+		}
+	} while (1 == 0);
+
+	// end of finding month and day
+
+
+	//printing results 
+	printf("\n\nThe average temperature in 1930 was %0.2f\nThe average temperature in \
+2001 was %0.2f", mean_1, mean_2);
+
+	printf("\n\nThe standard deviation of the 1930 data is %0.1f\nThe standard deviation of \
+the 2001 data is %0.1f", std_1, std_2);
+
+	printf("\n\nThe minimum and maximum temperatures in 1930 were %d degrees on %s %d and %d degrees on %s %d\
+\nThe minimum and maximum temperatures in 2001 were %d degrees on %s %d and \%d degrees on %s \
+%d", min_1, min_1_month, min_1_day, max_1, max_1_month, max_1_day, min_2, min_2_month, min_2_day, max_2,max_2_month, max_2_day);
 
 
 	pointer2 = fopen("results.dat", "w");    // open/create results
 
-	fprintf(pointer2, "mean of 1930: %f standard deviation of 1930: %f\
-\nmean of 2001: %f standard deviation of 2001: %f", mean_1, std_1, mean_2, std_2); // write data to file in user friendly way
+	fprintf(pointer2, "The mean temperature of 1930 is: %0.2f The standard deviation of temperature in 1930 was: %0.2f\
+\nThe mean temerature of 2001 was: %0.2f The standard deviation of temperature in 2001 was: %0.2f\n\nThe\
+ minimum and maximum temperatures in 1930 were %d degrees on %s %d and %d degrees on %s %d\
+\nThe minimum and maximum temperatures in 2001 were %d degrees on %s %d and %d degrees on %s \
+%d", mean_1, std_1, mean_2, std_2,min_1,min_1_month,min_1_day,max_1,max_1_month,max_1_day,min_2,min_2_month,min_2_day,max_2,max_2_month,max_2_day); // write data to file in user friendly way
 
 	fclose(pointer2);     //close document
 
 	
-	
+	printf("\n\n");
 		system("pause");
 
 }
